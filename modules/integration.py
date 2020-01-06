@@ -24,18 +24,18 @@ def interlingua_endocytosis(const_path, add_path, save_path):
     data = []
     master_df_list = []
 
-    # インターリングア
-    INTER_MN = ('型式', '型番', '商品名', '型式\n', '型番\n', '商品名\n')
-    INTER_PN = ('品名', '分類')
-    INTER_GS = ('図記号',)
-    INTER_MF = ('メーカー', 'ﾒｰｶｰ')
-    INTER_SF = ('主な仕様')
-    INTER_PC = ('購入先', '商社', '取引先', '仕入れ先', '仕入れ元', 'サイト名',
-                '仕入先名１')
-    INTER_TM = ('納期', '期間', '発送期間', '納入期間')
-    INTER_UP = ('単価', '部品単価', '購入金額', '金額', '値段')
-    INTER_QT = ('数量', '数', '購入数', '購入数量', '必要数', '必要数量')
-    INTER_ST = ('小計',)
+    # 中間言語
+    INTER_MN = ('型式', '型番', '商品名', '型式\n', '型番\n', '商品名\n', 'PartName')
+    INTER_PN = ('品名', '分類', 'Cmp name')
+    INTER_GS = ('図記号', 'Reference')
+    INTER_MF = ('メーカー', 'ﾒｰｶｰ', 'Manufacturer')
+    INTER_SF = ('主な仕様', '仕様', 'value')
+    INTER_PC = ('購入先', '商社', '取引先', '仕入れ先', '仕入先', '仕入れ元', 'サイト名',
+                '仕入先名１', 'Vendor')
+    INTER_TM = ('納期', '期間', '発送期間', '納入期間',  'Delivery date')
+    INTER_UP = ('単価', '部品単価', 'Unit price')
+    INTER_QT = ('数量', '数', '購入数', '購入数量', '必要数', '必要数量', 'quantity')
+    INTER_ST = ('小計', 'subtotal')
     INTER_DT = ('仕入日',)
     INTER_ALL = {'型式': INTER_MN, '品名': INTER_PN, '図記号': INTER_GS,
                  'メーカー': INTER_MF, '主な仕様': INTER_SF, '購入先': INTER_PC,
@@ -206,11 +206,11 @@ def interlingua_endocytosis(const_path, add_path, save_path):
             for const_ilist_i, const_index in enumerate(const.under_dfi_ilist[const_i]):
                 for add_ilist_i, add_index in enumerate(add.drop_under_dfi_ilsit[add_i]):
                     # 比較対象の型番の空白削除
-                    const_index_rep = const_index\
+                    const_index_rep = str(const_index)\
                         .replace(" ", "").replace("Ω", "").replace("〃", "")\
                         .replace("　", "").replace("\n", "").replace("(", "")\
                         .replace(")", "")
-                    add_index_rep = add_index\
+                    add_index_rep = str(add_index)\
                         .replace(" ", "").replace("Ω", "").replace("〃", "")\
                         .replace("　", "").replace("\n", "").replace("(", "")\
                         .replace(")", "")
@@ -219,7 +219,7 @@ def interlingua_endocytosis(const_path, add_path, save_path):
                         # それぞれのcolumn(見出し)を回す
                         for const_column in const.under_dfi_clist[const_i]:
                             for add_column in add.under_dfi_clist[add_i]:
-                                # インターリングア方式による中間言語の生成
+                                # interlingua方式による中間言語の生成
                                 add_inter_column = get_key_from_value(
                                     INTER_ALL, add_column)
                                 # 中間言語一致確認,add_rule一致,空白value除外,空白見出し除外
